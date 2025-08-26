@@ -35,18 +35,41 @@ void setIO(string name = "") {
 const int MAXN = 1e5 + 1;
 const int MOD = 1e9 + 7;
 
-void solve(){
-    int n, x; cin >> n >> x;
-    vector<int> arr(n);
+ll dfs(vector<vector<int>>& arr, vector<vector<bool>>& seen, int& m, int& n, int i, int j){
+    ll stn = ;
+    for (auto [dx, dy] : vector<pii>{{1,0},{-1,0},{0,1},{0,-1}}){
+        int ni = i + dx;
+        int nj = j + dy;
 
-    rep(i, n) cin >> arr[i];
-    sort(arr[i]);|
+        if (ni < 0 || nj < 0 || ni >= m || nj >= n) continue;
+        if (seen[ni][nj]) continue;
+        seen[ni][nj] = true;
+
+        stn += dfs(arr, seen, m, n, ni, nj);
+    }
+    return stn;
+}
+
+void solve(){
+    int m, n; cin >> m >> n;
+    vector<vector<int>> arr(m, vector<int>(n));
+    vector<vector<bool>> seen(m, vector<bool>(n, false));
+
+    rep(i, m)
+        rep(j, n) 
+            cin >> arr[i][j];
+    
+    ll out = 0;
+    rep(i, m) rep(j, n){
+        if (!seen[i][j]) out = max(dfs(arr, seen, m, n, i, j), out);
+    }
+    cout << out << el;
 }
 
 int main() {
     FastIO;
     int t = 1;
-    //cin >> t;
+    cin >> t;
     while (t--) solve();
     return 0;
 }

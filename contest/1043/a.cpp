@@ -32,21 +32,38 @@ void setIO(string name = "") {
 	}
 }
 
+const int INF = INT32_MAX;
 const int MAXN = 1e5 + 1;
 const int MOD = 1e9 + 7;
 
 void solve(){
-    int n, x; cin >> n >> x;
-    vector<int> arr(n);
+    int a, b; string sa, sb;
+    cin >> a >> sa >> b >> sb;
 
-    rep(i, n) cin >> arr[i];
-    sort(arr[i]);|
+    string pre = "", pos = "", o = "";
+    o.resize(a + b);
+    pre.resize(b);
+    pos.resize(b);
+
+    int ppre = 0, ppos = 0;
+    string in; cin >> in;
+    
+    rep(i, b){
+        if (in[i] == 'D') pos[ppos++] = sb[i];
+        else pre[ppre++] = sb[i];
+    }
+    
+    repb(i, ppre) o[ppre - i - 1] = pre[i];
+    rep(i, a) o[ppre + i] = sa[i];
+    rep(i, ppos) o[ppre + a + i] = pos[i];
+
+    cout << o << el;
 }
 
 int main() {
     FastIO;
     int t = 1;
-    //cin >> t;
+    cin >> t;
     while (t--) solve();
     return 0;
 }
