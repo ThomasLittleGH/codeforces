@@ -39,12 +39,12 @@ const int MOD = 1e9 + 7;
 void solve(){
     int n, m, d; cin >> n >> m >> d;
     vector<vector<int>> mat(n, vector<int>(m));
+    vector<int> median(m*n);
 
     int min_val = 1e9;
-    rep(i, n) rep(j ,m){ cin >> mat[i][j]; min_val = min(min_val, mat[i][j]); }
+    rep(i, n) rep(j, m){ cin >> mat[i][j]; min_val = min(min_val, mat[i][j]); }
 
     int last_val = -1;
-    int prom = 0; 
     rep(i, n) rep(j, m){
         mat[i][j] -= min_val;
         if (last_val == -1) last_val = mat[i][j] % d;
@@ -53,18 +53,16 @@ void solve(){
             return;
         }
         
-        mat[i][j] /= d;
-        prom += mat[i][j];
+        median[i*m + j] = mat[i][j];
     }
-    
-    prom += 1;
-    prom /= n*m;
+    sort(all(median));
 
-    ll mov = 0;
+    ll mov1 = 0, mov2 = 0;
 
-    rep(i, n) rep(j, m) mov += abs(prom - mat[i][j]);
+    rep(i, n) rep(j, m) mov1 += abs(median[m*n/2] - mat[i][j]) / d;
+    rep(i, n) rep(j, m) mov2 += abs(median[m*n/2 + 1] - mat[i][j]) / d;
 
-    cout << mov << el;
+    cout << min(mov1, mov2) << el;
 }
 
 int main() {
